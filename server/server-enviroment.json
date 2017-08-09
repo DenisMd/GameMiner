@@ -1,0 +1,8 @@
+{
+  "production": false,
+  "minSeverity": "debug",
+  "info": {
+    "version": "1.0.0",
+    "name": "game-miner-server"
+  }
+}
