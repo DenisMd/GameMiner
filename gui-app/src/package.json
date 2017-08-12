@@ -1,6 +1,6 @@
 {
   "name": "game_miner_gui",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "game_miner",
   "main": "app.js",
   "scripts": {
