@@ -1,13 +1,32 @@
-console.log(__dirname);
-
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
+
+const electron = require('electron');
 
 if (handleSquirrelEvent(app)) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
     return;
 }
+
+let autoUpdater = electron.autoUpdater;
+
+autoUpdater.on('update-availabe', () => {
+    console.log('update available')
+});
+autoUpdater.on('checking-for-update', () => {
+    console.log('checking-for-update')
+});
+autoUpdater.on('update-not-available', () => {
+    console.log('update-not-available')
+});
+autoUpdater.on('update-downloaded', (e) => {
+    console.log(e);
+    console.log("Install?");
+    autoUpdater.quitAndInstall()
+});
+autoUpdater.setFeedURL('https://github.com/DenisMD/GameMiner/releases/latest');
+autoUpdater.checkForUpdates();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -23,6 +42,8 @@ function createWindow () {
         protocol: 'file:',
         slashes: true
     }));
+
+    win.setMenu(null);
 
     // Open the DevTools.
     //win.webContents.openDevTools();
