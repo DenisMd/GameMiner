@@ -94,16 +94,16 @@ function handleSquirrelEvent(application) {
     switch (squirrelEvent) {
         case '--squirrel-install':
         case '--squirrel-updated':
-            // Optionally do things such as:
-            // - Add your .exe to the PATH
-            // - Write to the registry for things like file associations and
-            //   explorer context menus
+        // Optionally do things such as:
+        // - Add your .exe to the PATH
+        // - Write to the registry for things like file associations and
+        //   explorer context menus
 
-            // Install desktop and start menu shortcuts
-            spawnUpdate(['--createShortcut', exeName]);
+        // Install desktop and start menu shortcuts
+        spawnUpdate(['--createShortcut', exeName]);
 
-            setTimeout(application.quit, 1000);
-            return true;
+        setTimeout(application.quit, 1000);
+        return true;
 
         case '--squirrel-uninstall':
             // Undo anything you did in the --squirrel-install and
