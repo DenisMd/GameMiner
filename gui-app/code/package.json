@@ -10,8 +10,5 @@
   "license": "MIT",
   "dependencies": {
     "electron": "^1.6.11"
-  },
-  "devDependencies": {
-    "electron-winstaller": "^2.6.3"
   }
 }
