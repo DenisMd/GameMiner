@@ -1,6 +1,7 @@
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
+const GhReleases = require('electron-gh-releases');
 
 const electron = require('electron');
 
@@ -9,24 +10,28 @@ if (handleSquirrelEvent(app)) {
     return;
 }
 
-let autoUpdater = electron.autoUpdater;
+let options = {
+    repo: 'DenisMd/GameMiner',
+    currentVersion: app.getVersion()
+};
 
-autoUpdater.on('update-availabe', () => {
-    console.log('update available')
+const updater = new GhReleases(options);
+
+// Check for updates
+// `status` returns true if there is a new update available
+updater.check((err, status) => {
+    if (!err && status) {
+        // Download the update
+        updater.download()
+    }
 });
-autoUpdater.on('checking-for-update', () => {
-    console.log('checking-for-update')
+
+// When an update has been downloaded
+updater.on('update-downloaded', (info) => {
+    // Restart the app and install the update
+    updater.install()
 });
-autoUpdater.on('update-not-available', () => {
-    console.log('update-not-available')
-});
-autoUpdater.on('update-downloaded', (e) => {
-    console.log(e);
-    console.log("Install?");
-    autoUpdater.quitAndInstall()
-});
-autoUpdater.setFeedURL('https://github.com/DenisMD/GameMiner/releases/latest');
-autoUpdater.checkForUpdates();
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
