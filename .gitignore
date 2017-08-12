@@ -108,3 +108,4 @@ crashlytics-build.properties
 fabric.properties
 
 .idea/
+gui-app/GameMiner-win32-x64/
