@@ -1,14 +1,18 @@
 {
-  "name": "game-miner-gui",
+  "name": "game_miner_gui",
   "version": "1.0.0",
-  "description": "",
+  "description": "game_miner",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-packager ./ --platform=win32 --arch=x64 GameMiner"
   },
   "author": "DenisMD",
   "license": "MIT",
   "dependencies": {
     "electron": "^1.6.11"
+  },
+  "devDependencies": {
+    "electron-squirrel-startup": "^1.0.0"
   }
 }
