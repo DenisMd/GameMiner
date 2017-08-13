@@ -39,7 +39,8 @@ function createWindow () {
         protocol: 'file:',
         slashes: true
     }));
-    win.setMenu(null);
+    win.openDevTools();
+    win.html5Mode = true;
     win.on('closed', () => {
         win = null
     })
@@ -59,6 +60,11 @@ app.on('activate', () => {
     }
 });
 
+
+exports.openWindows = (filename) => {
+    let newWin = new BrowserWindow({width: 800, height: 600});
+    newWin.loadURL(`file://${__dirname}/${filename}.html`);
+};
 
 // ------------------------------------------------ Packing application
 function handleSquirrelEvent(application) {

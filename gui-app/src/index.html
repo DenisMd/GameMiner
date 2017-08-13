@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="game-miner-app">
 <head>
     <meta charset="UTF-8">
     <title>Game miner</title>
+    <link rel="stylesheet" href="css/general.css">
 </head>
-<body>
+<body ng-controller="TestCtrl">
     <h1>Test</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.el
+
+    <ul>
+        <li ng-repeat="phone in phones">
+            <span>{{phone.name}}</span>
+            <p>{{phone.snippet}}</p>
+        </li>
+    </ul>
+    <a href="http://www.google.com">dsafasf</a>
+
+    <a ui-sref="red">Settings</a>
+
+    <div ui-view></div>
+
+    <script src="./node_modules/angular/angular.min.js"></script>
+    <script src="./node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+    <script src="js/angApp.js"></script>
 </body>
 </html>
