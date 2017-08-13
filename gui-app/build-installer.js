@@ -7,9 +7,9 @@ var settings = {
     // Specify the existing folder where
     outputDirectory: './installer',
     // The name of the Author of the app (the name of your company)
-    authors: 'Our Code World Inc.',
+    authors: 'GSoftware',
     // The name of the executable of your built
-    exe: './GameMiner.exe'
+    exe: './GMiner.exe'
 };
 
 resultPromise = electronInstaller.createWindowsInstaller(settings);
