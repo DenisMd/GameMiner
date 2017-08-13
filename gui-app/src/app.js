@@ -44,6 +44,7 @@ function createWindow () {
     win.on('closed', () => {
         win = null
     })
+    win.openDevTools();
 }
 
 app.on('ready', createWindow);

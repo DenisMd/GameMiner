@@ -1,4 +1,10 @@
+
+const packageInfo = require("../package");
+
+
 var mainApp = angular.module('game-miner-app', ['ui.router']);
+
+
 
 mainApp.config(function($stateProvider, $urlRouterProvider) {
 
@@ -15,17 +21,14 @@ mainApp.config(function($stateProvider, $urlRouterProvider) {
 });
 
 
-mainApp.controller('TestCtrl', function PhoneListController($scope) {
-    $scope.phones = [
-        {
-            name: 'Nexus S',
-            snippet: 'Fast just got faster with Nexus S.'
-        }, {
-            name: 'Motorola XOOM™ with Wi-Fi',
-            snippet: 'The Next, Next Generation tablet.'
-        }, {
-            name: 'MOTOROLA XOOM™',
-            snippet: 'The Next, Next Generation tablet.'
-        }
-    ];
+mainApp.controller('MainCtrl', function PhoneListController($scope,$http) {
+    $scope.version = packageInfo.version;
+
+    $http.get("http://localhost:13555/info")
+        .then(function(response) {
+            $scope.serverInfo = response.data;
+        });
 });
+
+
+
