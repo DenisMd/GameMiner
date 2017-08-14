@@ -2,6 +2,7 @@
   "production": false,
   "minSeverity": "debug",
   "port": 13555,
+  "dburl": "mongodb://localhost:27017/test",
   "info": {
     "version": "1.0.0",
     "name": "game-miner-server"
