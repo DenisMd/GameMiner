@@ -2,9 +2,11 @@
   "production": false,
   "minSeverity": "debug",
   "port": 13555,
-  "dburl": "mongodb://localhost:27017/test",
+  "dburl": "mongodb://localhost:27017/gdata",
   "info": {
     "version": "1.0.0",
-    "name": "game-miner-server"
+    "name": "game-miner-server",
+    "engineeringWorks": false,
+    "engineeringWorksMess": "На сервер введутся технические работы"
   }
 }
