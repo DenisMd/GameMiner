@@ -14,7 +14,7 @@ body {
 }
 
 /* Make Header Sticky */
-.header_container {
+.header-container {
     background:#2d3033;
     height:60px;
     left:0;
@@ -22,18 +22,44 @@ body {
     width:100%;
     top:0;
 }
-.header{
-    line-height:60px;
-    margin:0 auto;
-    text-align:center;
+.primary-nav {
+    display:flex;
+    list-style-type:none;
+    padding:0;
+    margin: 0;
+    align-items: center;
+    height: inherit;
+}
+
+.left {
+    margin-right:auto;
+}
+
+.right {
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.right a{
+    color: #f5f5f5;
+}
+
+.right a:hover{
+    color: #2da44d;
+}
+
+.header-logo {
+    height: 55px;
+    padding-left: 20px;
 }
 
 /* CSS for the content of page. I am giving top and bottom padding of 80px to make sure the header and footer do not overlap the content.*/
 .container {
     background: #6c6e70;
-    min-height: calc(100vh - 30px);
+    min-height: calc(100vh - 140px);
     margin:0 auto;
     overflow:auto;
+    padding: 80px 80px 30px;
 }
 
 /* Make Footer Sticky */

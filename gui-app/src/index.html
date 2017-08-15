@@ -7,10 +7,15 @@
 </head>
 <body ng-controller="MainCtrl">
 
-    <div class="header_container">
-        <div class="header">
-            Header Content
-        </div>
+    <div class="header-container">
+        <ul class="primary-nav">
+            <li class="left">
+                <img src="./icons/miner.png" class="header-logo">
+            </li>
+            <li class="right"><a ui-sref="/library">Библиотека игр</a></li>
+            <li class="right"><a ui-sref="/rooms">Комнаты</a></li>
+            <li class="right"><a ui-sref="/current_user">Аноним</a></li>
+        </ul>
     </div>
 
     <div class="container">
