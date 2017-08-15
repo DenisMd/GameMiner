@@ -17,7 +17,11 @@ module.exports = function () {
             const app = express();
             logger.info(`Starting server on port ${env.port}`);
             systemRoute(app);
-            userRoute(app, db);
+            if (!env.info.engineeringWorks) {
+                db.collection('guser').createIndex( { "uuid": 1 }, { unique: true } );
+                db.collection('guser').createIndex( { "workerId": 1 }, { unique: true } );
+                userRoute(app, db);
+            }
             app.listen(env.port);
 
         } else

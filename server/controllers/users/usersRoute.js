@@ -1,24 +1,42 @@
 var uuid = require('uuid/v4');
+const logger = require('../../logger/logger');
 
 module.exports = function (app, db) {
 
-    const guser = db.collection('guser');
-    const seq = db.collection('sequences');
-    seq.insertOne({name:"workerSeq", seq: 0});
-
-    function getNextWorker(name) {
-        var ret = seq.findAndModify(
-            {
-                query: {name: name},
-                update: { $inc: { seq: 1 } },
-                new: true
-            }
-        ).catch((err)=>{
-            console.log(err);
-        });
-
-        return ret.seq;
+    function randomString(length, chars) {
+        let mask = '';
+        if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+        if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (chars.indexOf('#') > -1) mask += '0123456789';
+        if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+        let result = '';
+        for (let i = length; i > 0; --i) result += mask[Math.floor(Math.random() * mask.length)];
+        return result;
     }
+
+    function createUser(user, res, level, error) {
+        if (!level)
+            level = 1;
+        if (level === 10) {
+            res.send(error);
+            return;
+        }
+        guser.insertOne(user)
+            .then(
+                (result) => {
+                    res.send(result.ops[0]);
+                }
+            )
+            .catch(
+                (error) => {
+                    logger.error("Error while create new user: %j, error: %j, level: %d", newUser, error, level);
+                    user.workerId = randomString(8,"#aA");
+                    createUser(user, res, ++level, error)
+                }
+            );
+    }
+
+    const guser = db.collection('guser');
 
     app.get('/user/new', function (req, res) {
         const newUser = {};
@@ -27,14 +45,10 @@ module.exports = function (app, db) {
         newUser.nickname = "Аноним";
         newUser.ip = [req.headers['x-forwarded-for'] || req.connection.remoteAddress];
         newUser.enable = false;
-        newUser.workerId = getNextWorker("workerSeq");
+        newUser.workerId = randomString(8,"#aA");
         newUser.systemInfo = {};
 
-        guser.insertOne(newUser)
-            .then(
-                (result) => {
-                    res.send(result.ops[0]);
-                }
-            );
+        logger.info("Create new user: %j", newUser);
+        createUser(newUser, res);
     });
 };
