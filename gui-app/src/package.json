@@ -4,6 +4,7 @@
   "description": "game_miner",
   "main": "app.js",
   "externalServer": "http://localhost:13555",
+  "disableDevTool": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "electron-packager ./ --out ../ --icon=./icons/logo.ico --platform=win32 --arch=x64 --overwrite GameMiner",

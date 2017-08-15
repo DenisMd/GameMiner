@@ -25,34 +25,26 @@ body {
 .header{
     line-height:60px;
     margin:0 auto;
-    width:940px;
     text-align:center;
 }
 
 /* CSS for the content of page. I am giving top and bottom padding of 80px to make sure the header and footer do not overlap the content.*/
 .container {
     background: #6c6e70;
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 30px);
     margin:0 auto;
     overflow:auto;
-    padding: 80px;
 }
-#content{}
-
 
 /* Make Footer Sticky */
 .footer_container {
     background:#2d3033;
-    bottom:0;
     height:30px;
-    left:0;
-    position:fixed;
     width:100%;
 }
 
 .footer {
     line-height:30px;
     margin:0 auto;
-    width:940px;
     text-align:center;
 }

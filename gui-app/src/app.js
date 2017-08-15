@@ -2,6 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
 const GhReleases = require('electron-gh-releases');
+const package = require('./package');
 
 const electron = require('electron');
 
@@ -33,7 +34,12 @@ updater.on('update-downloaded', (info) => {
 let win;
 
 function createWindow () {
-    win = new BrowserWindow({width: 1000, height: 600});
+    win = new BrowserWindow({
+        width: 1000,
+        height: 600,
+        'minHeight': 300,
+        'minWidth': 500
+    });
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file:',
@@ -43,8 +49,9 @@ function createWindow () {
     win.html5Mode = true;
     win.on('closed', () => {
         win = null
-    })
-    win.openDevTools();
+    });
+    if (!package.disableDevTool)
+        win.openDevTools();
 }
 
 app.on('ready', createWindow);
