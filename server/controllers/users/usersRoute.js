@@ -40,7 +40,8 @@ module.exports = function (app, db) {
 
     app.get('/user/new', function (req, res) {
         const newUser = {};
-        newUser.uuid = uuid();
+        newUser.privateUUID = uuid();
+        newUser.publicUUID = uuid();
         newUser.createDate = new Date();
         newUser.nickname = "Аноним";
         newUser.ip = [req.headers['x-forwarded-for'] || req.connection.remoteAddress];
@@ -52,21 +53,42 @@ module.exports = function (app, db) {
         createUser(newUser, res);
     });
 
-    app.get('/user/get', function (req, res) {
-        if (!req.query.uuid) {
+    app.get('/user/login', function (req, res) {
+        let uuid = req.query.privateUUID;
+        if (!uuid) {
             res.send({codeMessage: `В запросе отсутсвует uuid`});
             return;
         }
 
-        guser.findOne({"uuid": req.query.uuid},function (err, result) {
+        guser.findOne({"privateUUID": uuid},function (err, result) {
             if (err) {
-                logger.error("Error while try get user by uuid: %s", req.query.uuid);
+                logger.error("Error while try get user by uuid: %s", uuid);
                 res.send(err);
             } else {
                 if (result)
                     res.send(result);
                 else
-                    res.send({codeMessage: `Пользователь с таким uuid:"${req.query.uuid}" не найден`});
+                    res.send({codeMessage: `Пользователь с таким uuid:"${uuid}" не найден`});
+            }
+        });
+    });
+
+    app.get('/user/info', function (req, res) {
+        let uuid = req.query.publicUUID;
+        if (!uuid) {
+            res.send({codeMessage: `В запросе отсутсвует uuid`});
+            return;
+        }
+
+        guser.findOne({"publicUUID": uuid}, {"privateUUID": 0},function (err, result) {
+            if (err) {
+                logger.error("Error while try get user by uuid: %s", uuid);
+                res.send(err);
+            } else {
+                if (result) {
+                    res.send(result);
+                } else
+                    res.send({codeMessage: `Пользователь с таким uuid:"${uuid}" не найден`});
             }
         });
     });

@@ -17,7 +17,7 @@ const limiter = new RateLimit({
 
 const userCreateLimit = new RateLimit({
     windowMs: 60*60*1000, // 60 minutes
-    max: 3, // limit each IP to 100 requests per windowMs
+    max: 3, // limit each IP to 3 requests per windowMs
     delayMs: 0, // disable delaying - full speed until the max limit is reached
     message: "Превышен запрос на создание пользователей, повторите через 1 час"
 });
@@ -36,11 +36,14 @@ module.exports = function () {
 
             logger.info(`Starting server on port ${env.port}`);
             systemRoute(app);
+
             if (!env.info.engineeringWorks) {
-                db.collection('guser').createIndex( { "uuid": 1 }, { unique: true } );
+                db.collection('guser').createIndex( { "privateUUID": 1 }, { unique: true } );
+                db.collection('guser').createIndex( { "publicUUID": 1 }, { unique: true } );
                 db.collection('guser').createIndex( { "workerId": 1 }, { unique: true } );
                 userRoute(app, db);
             }
+
             app.listen(env.port);
 
         } else
