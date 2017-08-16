@@ -1,12 +1,26 @@
-const express = require('express');
-const logger = require('../logger/logger');
-const env = require('../server-enviroment');
+const express   = require('express');
+const logger    = require('../logger/logger');
+const env       = require('../server-enviroment');
 
-const MongoClient = require('mongodb').MongoClient;
+const MongoClient   = require('mongodb').MongoClient;
+const RateLimit     = require('express-rate-limit');
 
 // Routes
 const systemRoute = require('./system/systemRoute');
 const userRoute = require('./users/usersRoute');
+
+const limiter = new RateLimit({
+    windowMs: 10*60*1000, // 15 minutes
+    max: 200, // limit each IP to 100 requests per windowMs
+    delayMs: 0 // disable delaying - full speed until the max limit is reached
+});
+
+const userCreateLimit = new RateLimit({
+    windowMs: 60*60*1000, // 60 minutes
+    max: 3, // limit each IP to 100 requests per windowMs
+    delayMs: 0, // disable delaying - full speed until the max limit is reached
+    message: "Превышен запрос на создание пользователей, повторите через 1 час"
+});
 
 module.exports = function () {
     // Use connect method to connect to the server
@@ -15,6 +29,11 @@ module.exports = function () {
             logger.info("Connected successfully to mongodb");
 
             const app = express();
+
+            app.enable('trust proxy');
+            app.use(limiter);
+            app.use('/user/new', userCreateLimit);
+
             logger.info(`Starting server on port ${env.port}`);
             systemRoute(app);
             if (!env.info.engineeringWorks) {
