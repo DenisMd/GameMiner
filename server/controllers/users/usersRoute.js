@@ -51,4 +51,23 @@ module.exports = function (app, db) {
         logger.info("Create new user: %j", newUser);
         createUser(newUser, res);
     });
+
+    app.get('/user/get', function (req, res) {
+        if (!req.query.uuid) {
+            res.send({codeMessage: `В запросе отсутсвует uuid`});
+            return;
+        }
+
+        guser.findOne({"uuid": req.query.uuid},function (err, result) {
+            if (err) {
+                logger.error("Error while try get user by uuid: %s", req.query.uuid);
+                res.send(err);
+            } else {
+                if (result)
+                    res.send(result);
+                else
+                    res.send({codeMessage: `Пользователь с таким uuid:"${req.query.uuid}" не найден`});
+            }
+        });
+    });
 };
