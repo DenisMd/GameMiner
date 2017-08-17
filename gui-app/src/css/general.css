@@ -29,10 +29,27 @@ body {
     margin: 0;
     align-items: center;
     height: inherit;
+    justify-content: space-between;
+}
+
+.gminer-text {
+    margin-left: 10px;
+    color: #af251c;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.gminer-text:hover {
+    color: #ec1f1c;
+}
+
+.primary-nav li:nth-child(3) {
+    margin-left: auto;
 }
 
 .left {
-    margin-right:auto;
+    align-items: center;
 }
 
 .right {
@@ -45,11 +62,11 @@ body {
 }
 
 .right a:hover{
-    color: #2da44d;
+    color: #ec1f1c;
 }
 
 .header-logo {
-    height: 55px;
+    height: 45px;
     padding-left: 20px;
 }
 
