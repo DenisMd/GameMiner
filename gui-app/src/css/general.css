@@ -93,9 +93,14 @@ body {
 }
 
 /*-------------------------------------------------------- Error -----------------------*/
-.error-container {
+.error-center {
     display: flex;
-    border: 1px solid red;
+    justify-content: center;
+    align-items: center;
+    min-height: inherit;
+}
+
+.error-box{
     background: #f5f5f5;
     width: 200px;
     height: 200px;
