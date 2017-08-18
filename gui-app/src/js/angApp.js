@@ -1,4 +1,5 @@
 const packageInfo = require("./package");
+const {app} = require('electron').remote;
 
 var mainApp = angular.module('game-miner-app', ['ui.router']);
 
@@ -60,6 +61,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http) 
                     }
                 });
             }
+            $scope.appPath = app.getPath('userData');
         }).catch((e) => {
             $state.go('error', prepareError(e));
         });

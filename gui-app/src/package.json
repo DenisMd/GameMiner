@@ -8,8 +8,8 @@
   "enableAutoReload": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack": "electron-packager ./ --out ../ --icon=./icons/logo.ico --platform=win32 --arch=x64 --overwrite GameMiner",
-    "archive": "asar pack ../GameMiner-win32-x64/resources/app ../GameMiner-win32-x64/resources/app.asar"
+    "pack": "electron-packager ./ --out ../ --icon=./icons/logo.ico --platform=win32 --arch=x64 --overwrite GMiner",
+    "archive": "asar pack ../GMiner-win32-x64/resources/app ../GMiner-win32-x64/resources/app.asar"
   },
   "author": "DenisMD",
   "license": "MIT",
@@ -17,11 +17,11 @@
     "@uirouter/angularjs": "^1.0.6",
     "angular": "^1.6.5",
     "electron-gh-releases": "^2.0.4",
+    "electron-reload": "^1.2.1",
     "font-awesome": "^4.7.0"
   },
   "devDependencies": {
     "asar": "^0.13.0",
-    "electron-reload": "^1.2.1",
     "electron-squirrel-startup": "^1.0.0",
     "electron": "^1.6.11"
   }
