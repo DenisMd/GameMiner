@@ -9,16 +9,63 @@ mainApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('initialize', {
             url: '/',
-            templateUrl: 'pages/initialize.html'
+            templateUrl: 'pages/initialize.html',
+            controller: 'StartCtrl'
+        })
+        .state('error', {
+            url: '/error',
+            templateUrl: 'pages/error.html',
+            controller: 'ErrorCtrl',
+            params: {
+                error: null
+            }
         })
 
 });
 
-mainApp.controller('MainCtrl', function PhoneListController($scope,$http) {
-    $scope.version = packageInfo.version;
+function prepareError(e) {
+    if (e.status === 429) {
+        return {
+            error: {
+                icon: 'clock-o ',
+                header: "Превышен лимит запросов",
+                message: "С вашего IP-адреса превышен лимит запросов к серверу. Повторите попытку позже"
+            }
+        };
+    } else {
+            return {
+                error: {
+                    icon: 'warning',
+                    header: "Отсутсвует подключение к серверу",
+                    message: "Проверьте ваше подключение к интернету или повторите попытку позже"
+                }
+        };
+    }
+}
 
+mainApp.controller('MainCtrl', function MainController($scope) {
+    $scope.version = packageInfo.version;
+});
+
+mainApp.controller('StartCtrl', function StartController($scope, $state, $http) {
     $http.get(`${packageInfo.externalServer}/info`)
         .then(function(response) {
-            $scope.serverInfo = response.data;
+            let data = response.data;
+            if (data.engineeringWorks === true) {
+                $state.go('error', {
+                    error: {
+                        icon: 'clock-o ',
+                        header: "Технические работы",
+                        message: data.engineeringWorksMess
+                    }
+                });
+            }
+        }).catch((e) => {
+            $state.go('error', prepareError(e));
         });
+});
+
+
+mainApp.controller('ErrorCtrl', function ErrorController($scope, $stateParams) {
+    $scope.error = $stateParams.error;
 });

@@ -102,11 +102,28 @@ body {
 
 .error-box{
     background: #fff;
-    width: 200px;
+    width: 300px;
     height: 200px;
     border-radius: 10px;
     display: flex;
     text-align: center;
+    flex-direction: column;
+}
+
+.error-logo {
+    color: #f65656;
+    font-size: 55px;
+}
+
+.error-message h3{
+    color: #6c6e70;
+    font-size: 16px;
+}
+
+.error-message p {
+    color: #b7b3b6;
+    font-size: 14px;
+    padding: 0 5px;
 }
 
 .error-box .error-button {
