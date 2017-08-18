@@ -66,6 +66,9 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http) 
 });
 
 
-mainApp.controller('ErrorCtrl', function ErrorController($scope, $stateParams) {
+mainApp.controller('ErrorCtrl', function ErrorController($scope, $state, $stateParams) {
     $scope.error = $stateParams.error;
+    $scope.reconnect = function () {
+        $state.go('initialize');
+    }
 });
