@@ -101,7 +101,21 @@ body {
 }
 
 .error-box{
-    background: #f5f5f5;
+    background: #fff;
     width: 200px;
     height: 200px;
+    border-radius: 10px;
+    display: flex;
+    text-align: center;
+}
+
+.error-box .error-button {
+    background-color: #f65656;
+    color: #fff;
+    cursor: pointer;
+    margin-top: auto;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    flex-grow: 1;
+    padding: 10px;
 }

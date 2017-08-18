@@ -33,6 +33,9 @@ updater.on('update-downloaded', (info) => {
 // ------------------------------------------------ Creating main window
 let win;
 
+if (package.enableAutoReload)
+    require('electron-reload')(__dirname);
+
 function createWindow () {
     win = new BrowserWindow({
         width: 1000,
