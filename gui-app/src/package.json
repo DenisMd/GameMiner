@@ -18,7 +18,8 @@
     "angular": "^1.6.5",
     "electron-gh-releases": "^2.0.4",
     "electron-reload": "^1.2.1",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "gpu-info": "0.0.1"
   },
   "devDependencies": {
     "asar": "^0.13.0",

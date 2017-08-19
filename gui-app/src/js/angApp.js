@@ -1,7 +1,10 @@
 const packageInfo = require("./package");
 const {app} = require('electron').remote;
+const fs = require('fs');
 
-var mainApp = angular.module('game-miner-app', ['ui.router']);
+const mainApp = angular.module('game-miner-app', ['ui.router']);
+
+const appConfigPath = app.getPath('userData') + '\\AppConfig\\';
 
 mainApp.config(function($stateProvider, $urlRouterProvider) {
 
@@ -49,6 +52,7 @@ mainApp.controller('MainCtrl', function MainController($scope) {
 });
 
 mainApp.controller('StartCtrl', function StartController($scope, $state, $http) {
+    $scope.stage = null;
     $http.get(`${packageInfo.externalServer}/info`)
         .then(function(response) {
             let data = response.data;
@@ -60,11 +64,33 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http) 
                         message: data.engineeringWorksMess
                     }
                 });
+            } else {
+                //Проверяем залогин ли пользователь
+                try {
+                    const currentUserJson = fs.readFileSync(appConfigPath + "currentUser.json");
+                    // Проверяем информацию о системе
+                } catch (e) {
+                    if (e.code === 'ENOENT') {
+                        $scope.stage = "user";
+                    } else {
+                        console.error(e);
+                    }
+                }
             }
-            $scope.appPath = app.getPath('userData');
         }).catch((e) => {
             $state.go('error', prepareError(e));
         });
+
+    $scope.createUser = function () {
+        $scope.stage = "user-create";
+        $http.get(`${packageInfo.externalServer}/user/new`)
+            .then(function(response) {
+                $scope.newUser = response.data;
+
+            }).catch((e) => {
+            $state.go('error', prepareError(e));
+        })
+    }
 });
 
 

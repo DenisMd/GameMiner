@@ -1,1 +1,16 @@
-{{appPath}}
+<div ng-if="stage == 'user'" class="content-center-page user-container">
+    <a class="user-btn" href="#">Я уже имею аккаунт</a>
+    <span class="user-splitter">или</span>
+    <a class="user-btn" href="#" ng-click="createUser()">Создать новый аккаунт</a>
+</div>
+
+<div ng-if="stage == 'user-create'" class="content-center-page user-container">
+    <div>Пользователь создан</div>
+    <div>Запишите ващ uuid и никому его не сообщайте</div>
+    <div>--> {{newUser.privateUUID}} <--</div>
+    <div>
+        <label for="user-nickname">Ваш никнейм</label>
+        <input id="user-nickname" type="text" ng-model="newUser.nickname">
+    </div>
+    User Create: {{newUser}}
+</div>

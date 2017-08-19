@@ -6,6 +6,11 @@ const package = require('./package');
 
 const electron = require('electron');
 
+const gpuInfo = require('gpu-info');
+gpuInfo().then(function(data) {
+    console.log('GPUS:', data);
+});
+
 if (handleSquirrelEvent(app)) {
     return;
 }
