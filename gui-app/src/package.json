@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "electron-packager ./ --out ../ --icon=./icons/logo.ico --platform=win32 --arch=x64 --overwrite GMiner",
-    "archive": "asar pack ../GMiner-win32-x64/resources/app ../GMiner-win32-x64/resources/app.asar"
+    "archive": "asar pack ../GMiner-win32-x64/resources/app ../GMiner-win32-x64/resources/app.asar",
+    "start": "electron ."
   },
   "author": "DenisMD",
   "license": "MIT",

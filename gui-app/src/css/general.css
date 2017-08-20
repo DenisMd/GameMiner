@@ -22,6 +22,7 @@ body {
     width:100%;
     top:0;
 }
+
 .primary-nav {
     display:flex;
     list-style-type:none;
@@ -42,6 +43,10 @@ body {
 
 .gminer-text:hover {
     color: #ec1f1c;
+}
+
+.primary-nav li {
+    -webkit-app-region: no-drag;
 }
 
 .primary-nav li:nth-child(3) {

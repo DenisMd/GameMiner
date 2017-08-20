@@ -6,10 +6,10 @@ const package = require('./package');
 
 const electron = require('electron');
 
-const gpuInfo = require('gpu-info');
-gpuInfo().then(function(data) {
-    console.log('GPUS:', data);
-});
+// const gpuInfo = require('gpu-info');
+// gpuInfo().then(function(data) {
+//     console.log('GPUS:', data);
+// });
 
 if (handleSquirrelEvent(app)) {
     return;
@@ -46,7 +46,8 @@ function createWindow () {
         width: 1000,
         height: 600,
         'minHeight': 300,
-        'minWidth': 500
+        'minWidth': 500,
+        frame: false
     });
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
