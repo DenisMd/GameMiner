@@ -11,9 +11,14 @@
         <span class="bar"></span>
         <label class="glabel">Введите ваш Steam-Id</label>
     </div>
-    <div ng-if="steamPlayerInfo">
-        Nickname: {{steamPlayerInfo.personaname}}
-        <img ng-src="{{steamPlayerInfo.avatarmedium}}">
+    <div class="steam-user-info">
+        <div ng-if="steamPlayerInfo">
+            {{steamPlayerInfo.personaname}}
+            <img ng-src="{{steamPlayerInfo.avatarmedium}}">
+        </div>
+        <div ng-if="!steamPlayerInfo">
+            Аккаунт в стиме не найден
+        </div>
     </div>
     <a class="user-btn" href="#">Активировать аккаунт</a>
 </div>

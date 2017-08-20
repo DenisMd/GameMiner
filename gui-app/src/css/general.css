@@ -180,3 +180,9 @@ body {
 .user-create-container {
     flex-direction: column;
 }
+
+.steam-user-info {
+    width: 300px;
+    height: 80px;
+    border: 2px solid black;
+}
