@@ -126,17 +126,19 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
             method: "GET",
             params: {key: appEnv.steamApiKey(), vanityurl: $scope.newUser.steamAccount}
         }).then((response) => {
-            const steamId = response.data.response.steamid;
-            $scope.newUser.steamId = steamId;
-            if (steamId) {
-                $http({
-                    url: 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/',
-                    method: "GET",
-                    params: {key: appEnv.steamApiKey(), steamids: steamId}
-                }).then((response2) => {
-                    $scope.steamPlayerInfo = response2.data.response.players[0];
-                })
-            }
+            let steamId = response.data.response.steamid;
+            steamId = steamId ? steamId : $scope.newUser.steamAccount;
+            $http({
+                url: 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/',
+                method: "GET",
+                params: {key: appEnv.steamApiKey(), steamids: steamId}
+            }).then((response2) => {
+                const players = response2.data.response.players;
+                if (players.length > 0) {
+                    $scope.steamPlayerInfo = players[0];
+                    $scope.newUser.steamId = players[0].steamid;
+                }
+            })
         });
     }
 });
