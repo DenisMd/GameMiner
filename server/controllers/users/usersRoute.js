@@ -43,7 +43,6 @@ module.exports = function (app, db) {
         newUser.privateUUID = uuid();
         newUser.publicUUID = uuid();
         newUser.createDate = new Date();
-        newUser.nickname = "Аноним";
         newUser.ip = [req.headers['x-forwarded-for'] || req.connection.remoteAddress];
         newUser.enable = false;
         newUser.workerId = randomString(8,"#aA");

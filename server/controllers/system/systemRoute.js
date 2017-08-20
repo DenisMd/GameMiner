@@ -5,6 +5,11 @@ module.exports = function (app) {
         res.send("GServer works");
     });
     app.get('/info', function (req, res) {
+        const info = env.info;
+        if (info.engineeringWorks === false) {
+            delete info.engineeringWorks;
+            delete info.engineeringWorksMess;
+        }
         res.send(env.info)
     })
 };

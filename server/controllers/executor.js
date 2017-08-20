@@ -17,7 +17,7 @@ const limiter = new RateLimit({
 
 const userCreateLimit = new RateLimit({
     windowMs: 60*60*1000, // 60 minutes
-    max: 3, // limit each IP to 3 requests per windowMs
+    max: 500, // limit each IP to 3 requests per windowMs
     delayMs: 0, // disable delaying - full speed until the max limit is reached
     message: "Превышен запрос на создание пользователей, повторите через 1 час"
 });

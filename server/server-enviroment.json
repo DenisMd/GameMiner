@@ -6,7 +6,8 @@
   "info": {
     "version": "1.0.0",
     "name": "game-miner-server",
-    "engineeringWorks": false,
-    "engineeringWorksMess": "На сервер введутся технические работы"
+    "engineeringWorks": true,
+    "engineeringWorksMess": "На сервер введутся технические работы",
+    "steamApiKey": "573FDBC79BCBD34372792361E0BBDE36"
   }
 }
