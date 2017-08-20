@@ -5,92 +5,12 @@
 </div>
 
 <div ng-if="stage == 'user-create'" class="content-center-page user-container user-create-container">
-    <style>
-        .input {
-            position: relative;
-            z-index: 1;
-            display: inline-block;
-            margin: 1em;
-            max-width: 350px;
-            width: calc(100% - 2em);
-            vertical-align: top;
-        }
-        .input--hoshi {
-            overflow: hidden;
-        }
-        .input__field--hoshi {
-            margin-top: 1em;
-            padding: 0.85em 0.15em;
-            width: 100%;
-            background: transparent;
-            color: #595F6E;
-        }
-
-        .input__label--hoshi {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            padding: 0 0.25em;
-            width: 100%;
-            height: calc(100% - 1em);
-            text-align: left;
-            pointer-events: none;
-        }
-        .input__field {
-            position: relative;
-            display: block;
-            float: right;
-            padding: 0.8em;
-            width: 60%;
-            border: none;
-            border-radius: 0;
-            background: #f0f0f0;
-            color: #aaa;
-            font-weight: bold;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            -webkit-appearance: none; /* for box shadows to show on iOS */
-        }
-        .input__field:focus {
-            outline: none;
-        }
-        .input__label--hoshi-color-1::after {
-            border-color: hsl(200, 100%, 50%);
-        }
-        .input__label-content {
-            position: relative;
-            display: block;
-            padding: 1.6em 0;
-            width: 100%;
-        }
-        .input__label-content--hoshi {
-            position: absolute;
-        }
-        .input__label--hoshi::before,
-        .input__label--hoshi::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: calc(100% - 10px);
-            border-bottom: 1px solid #B9C1CA;
-        }
-
-        .input__label--hoshi::after {
-            margin-top: 2px;
-            border-bottom: 4px solid red;
-            -webkit-transform: translate3d(-100%, 0, 0);
-            transform: translate3d(-100%, 0, 0);
-            -webkit-transition: -webkit-transform 0.3s;
-            transition: transform 0.3s;
-        }
-    </style>
-    <span class="input input--hoshi">
-        <input class="input__field input__field--hoshi" type="text" id="steam-id" ng-model="newUser.steamAccount"/>
-        <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="steam-id">
-            <span class="input__label-content input__label-content--hoshi">Введит ваш Steam-Id</span>
-        </label>
-    </span>
+    <div class="ginput-container">
+        <input class = "ginput" type="text" ng-model="newUser.steamAccount" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="glabel">Введите ваш Steam-Id</label>
+    </div>
     <div ng-if="steamPlayerInfo">
         Nickname: {{steamPlayerInfo.personaname}}
         <img ng-src="{{steamPlayerInfo.avatarmedium}}">
