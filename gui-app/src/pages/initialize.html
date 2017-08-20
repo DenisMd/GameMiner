@@ -4,13 +4,14 @@
     <a class="user-btn" href="#" ng-click="createUser()">Создать новый аккаунт</a>
 </div>
 
-<div ng-if="stage == 'user-create'" class="content-center-page user-container">
-    <div>Пользователь создан</div>
-    <div>Запишите ващ uuid и никому его не сообщайте</div>
-    <div>--> {{newUser.privateUUID}} <--</div>
+<div ng-if="stage == 'user-create'" class="content-center-page user-container user-create-container">
     <div>
         <label for="user-nickname">Ваш SteamId</label>
-        <input id="user-nickname" type="text" ng-model="newUser.steamId">
+        <input id="user-nickname" type="text" ng-model="newUser.steamAccount">
     </div>
-    User Create: {{newUser}}
+    <div ng-if="steamPlayerInfo">
+        Nickname: {{steamPlayerInfo.personaname}}
+        <img ng-src="{{steamPlayerInfo.avatarmedium}}">
+    </div>
+    <a class="user-btn" href="#">Активировать аккаунт</a>
 </div>

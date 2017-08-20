@@ -47,11 +47,28 @@ function prepareError(e) {
     }
 }
 
+mainApp.service('appEnv', function() {
+    let steamApiKey = null;
+    let currentUser = null;
+
+    this.steamApiKey = function(key) {
+        if (!arguments.length) return steamApiKey;
+
+        steamApiKey = key;
+    };
+
+    this.currentUser = function(curUser) {
+        if (!arguments.length) return currentUser;
+
+        currentUser = curUser;
+    };
+});
+
 mainApp.controller('MainCtrl', function MainController($scope) {
     $scope.version = packageInfo.version;
 });
 
-mainApp.controller('StartCtrl', function StartController($scope, $state, $http) {
+mainApp.controller('StartCtrl', function StartController($scope, $state, $http, appEnv) {
     $scope.stage = null;
     $http.get(`${packageInfo.externalServer}/info`)
         .then(function(response) {
@@ -66,8 +83,10 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http) 
                 });
             } else {
                 //Проверяем залогин ли пользователь
+                appEnv.steamApiKey(data.steamApiKey);
                 try {
                     const currentUserJson = fs.readFileSync(appConfigPath + "currentUser.json");
+                    appEnv.currentUser(currentUserJson);
                     // Проверяем информацию о системе
                 } catch (e) {
                     if (e.code === 'ENOENT') {
@@ -86,10 +105,39 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http) 
         $http.get(`${packageInfo.externalServer}/user/new`)
             .then(function(response) {
                 $scope.newUser = response.data;
-
+                appEnv.currentUser($scope.newUser);
             }).catch((e) => {
             $state.go('error', prepareError(e));
         })
+    };
+
+    $scope.$watch("newUser.steamAccount", function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+            $scope.getSteamPlayerInfo();
+        }
+    });
+    
+    $scope.getSteamPlayerInfo = function () {
+        $scope.steamPlayerInfo = null;
+        if (!$scope.newUser.steamAccount)
+            return;
+        $http({
+            url: 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/',
+            method: "GET",
+            params: {key: appEnv.steamApiKey(), vanityurl: $scope.newUser.steamAccount}
+        }).then((response) => {
+            const steamId = response.data.response.steamid;
+            $scope.newUser.steamId = steamId;
+            if (steamId) {
+                $http({
+                    url: 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/',
+                    method: "GET",
+                    params: {key: appEnv.steamApiKey(), steamids: steamId}
+                }).then((response2) => {
+                    $scope.steamPlayerInfo = response2.data.response.players[0];
+                })
+            }
+        });
     }
 });
 
