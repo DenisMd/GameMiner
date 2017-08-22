@@ -11,6 +11,7 @@
         <span class="bar"></span>
         <label class="glabel">Введите ваш Steam-Id</label>
     </div>
+    <a class="info"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
     <div class="steam-user-info">
         <div ng-if="steamPlayerInfo" class="steam-user-info-not-found content-center-page">
             <div><img ng-src="{{steamPlayerInfo.avatarmedium}}"></div>
@@ -20,5 +21,5 @@
             Аккаунт в стиме не найден
         </div>
     </div>
-    <a class="user-btn" href="#" ng-click="activateUser()">Активировать аккаунт</a>
+    <a class="user-btn" ng-class="{'disabled':!steamPlayerInfo}" href="#" ng-click="activateUser()">Активировать аккаунт</a>
 </div>

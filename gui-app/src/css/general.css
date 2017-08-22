@@ -173,25 +173,47 @@ body {
     background: #bd4141;
 }
 
+.user-btn.disabled {
+    cursor: not-allowed;
+    background: rgba(246, 86, 86, 0.18);
+}
+
+.user-btn.disabled:hover {
+    background: rgba(246, 86, 86, 0.18);
+}
+
 .user-splitter {
     font-size: 50px;
 }
 
 .user-create-container {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 340px;
+    align-content: center;
+}
+
+.user-create-container .user-btn{
+    flex-grow: 1;
+    margin: 15px 0 0;
+}
+
+.user-create-container .info {
+    margin-left: 5px;
 }
 
 .steam-user-info {
-    width: 312px;
-    height: 80px;
+    height: 110px;
     border: 2px dotted #a3a4a6;
-    display: table;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .steam-user-info-not-found {
-    display: table-cell;
-    vertical-align: middle;
     font-size: 23px;
     color: #898a8c;
     padding: 5px 0;
+    flex-direction: column;
 }
