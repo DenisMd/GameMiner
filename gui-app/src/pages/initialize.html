@@ -12,11 +12,11 @@
         <label class="glabel">Введите ваш Steam-Id</label>
     </div>
     <div class="steam-user-info">
-        <div ng-if="steamPlayerInfo">
-            {{steamPlayerInfo.personaname}}
-            <img ng-src="{{steamPlayerInfo.avatarmedium}}">
+        <div ng-if="steamPlayerInfo" class="steam-user-info-not-found content-center-page">
+            <div><img ng-src="{{steamPlayerInfo.avatarmedium}}"></div>
+            <div style="color: #e0e3e1">{{steamPlayerInfo.personaname}}</div>
         </div>
-        <div ng-if="!steamPlayerInfo">
+        <div class="steam-user-info-not-found" ng-if="!steamPlayerInfo">
             Аккаунт в стиме не найден
         </div>
     </div>
