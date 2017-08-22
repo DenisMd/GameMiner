@@ -36,6 +36,14 @@ function prepareError(e) {
                 message: "С вашего IP-адреса превышен лимит запросов к серверу. Повторите попытку позже"
             }
         };
+    } if (e.status === 400) {
+        return {
+            error: {
+                icon: 'warning',
+                header: "Произошла неожиданная ошибка",
+                message: e.data
+            }
+        };
     } else {
             return {
                 error: {
@@ -66,6 +74,9 @@ mainApp.service('appEnv', function() {
 
 mainApp.controller('MainCtrl', function MainController($scope) {
     $scope.version = packageInfo.version;
+    if (!fs.existsSync(appConfigPath)){
+        fs.mkdirSync(appConfigPath);
+    }
 });
 
 mainApp.controller('StartCtrl', function StartController($scope, $state, $http, appEnv) {
@@ -140,6 +151,27 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
                 }
             })
         });
+    };
+
+    $scope.activateUser = function () {
+        if (!$scope.newUser.steamId)
+            return;
+        $http({
+            url: `${packageInfo.externalServer}/user/activate`,
+            method: "GET",
+            params: {privateUUID: $scope.newUser.privateUUID, steamId: $scope.newUser.steamId}
+        }).then((response) => {
+            // Записать в файл и начать собирать информацию о системе
+            $scope.newUser.enable = true;
+            fs.writeFile(appConfigPath + "currentUser.json", JSON.stringify($scope.newUser), function(err) {
+                if(err) {
+                    console.log(err);
+                }
+            });
+            $scope.stage = "gpuInfo";
+        }).catch((e) => {
+            $state.go('error', prepareError(e));
+        })
     }
 });
 

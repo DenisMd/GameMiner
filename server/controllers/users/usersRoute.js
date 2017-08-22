@@ -52,6 +52,27 @@ module.exports = function (app, db) {
         createUser(newUser, res);
     });
 
+    app.get('/user/activate', function (req, res) {
+        let uuid = req.query.privateUUID;
+        let steamId = req.query.steamId;
+        if (!uuid || !steamId) {
+            res.send({codeMessage: `В запросе отсутсвует uuid или steamId`});
+            return;
+        }
+
+        guser.updateOne(
+            { privateUUID: uuid, enable: false },
+            { $set: { "enable": true, steamId: steamId } }
+        ).then(function(result) {
+            // process result
+            if (result.result.n === 0) {
+                res.status(400);
+                res.send("Пользователь не найден или уже активирован");
+            } else
+                res.send("Пользователь успешно активирован");
+        });
+    });
+
     app.get('/user/login', function (req, res) {
         let uuid = req.query.privateUUID;
         if (!uuid) {
