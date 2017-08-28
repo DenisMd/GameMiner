@@ -77,18 +77,22 @@ module.exports = function (app, db) {
         let uuid = req.query.privateUUID;
         if (!uuid) {
             res.send({codeMessage: `В запросе отсутсвует uuid`});
+            res.status(400);
             return;
         }
 
         guser.findOne({"privateUUID": uuid},function (err, result) {
             if (err) {
                 logger.error("Error while try get user by uuid: %s", uuid);
+                res.status(400);
                 res.send(err);
             } else {
                 if (result)
                     res.send(result);
-                else
+                else {
+                    res.status(400);
                     res.send({codeMessage: `Пользователь с таким uuid:"${uuid}" не найден`});
+                }
             }
         });
     });

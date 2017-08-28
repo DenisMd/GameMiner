@@ -153,6 +153,14 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         });
     };
 
+    function writeUserInfoToFile(user) {
+        fs.writeFile(appConfigPath + "currentUser.json", JSON.stringify(user), function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
+    }
+
     $scope.activateUser = function () {
         if (!$scope.newUser.steamId)
             return;
@@ -163,16 +171,35 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         }).then((response) => {
             // Записать в файл и начать собирать информацию о системе
             $scope.newUser.enable = true;
-            fs.writeFile(appConfigPath + "currentUser.json", JSON.stringify($scope.newUser), function(err) {
-                if(err) {
-                    console.log(err);
-                }
-            });
+            writeUserInfoToFile($scope.newUser);
             $scope.stage = "gpuInfo";
         }).catch((e) => {
             $state.go('error', prepareError(e));
         })
-    }
+    };
+
+    $scope.login = {};
+    $scope.goToLogin = function () {
+        $scope.stage = "user-login";
+    };
+
+    $scope.login = function () {
+        console.log($scope.login.UUID.length);
+        if ($scope.login.UUID.length !== 36)
+            return;
+        $http({
+            url: `${packageInfo.externalServer}/user/login`,
+            method: "GET",
+            params: {privateUUID: $scope.login.UUID}
+        })
+            .then(function(response) {
+                appEnv.currentUser(response.data);
+                writeUserInfoToFile(appEnv.currentUser());
+                $scope.stage = "gpuInfo";
+            }).catch((e) => {
+            $state.go('error', prepareError(e));
+        })
+    };
 });
 
 

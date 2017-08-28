@@ -1,5 +1,5 @@
 <div ng-if="stage == 'user'" class="content-center-page user-container">
-    <a class="user-btn" href="#">Я уже имею аккаунт</a>
+    <a class="user-btn" href="#" ng-click="goToLogin()">Я уже имею аккаунт</a>
     <span class="user-splitter">или</span>
     <a class="user-btn" href="#" ng-click="createUser()">Создать новый аккаунт</a>
 </div>
@@ -22,4 +22,15 @@
         </div>
     </div>
     <a class="user-btn" ng-class="{'disabled':!steamPlayerInfo}" href="#" ng-click="activateUser()">Активировать аккаунт</a>
+</div>
+
+
+<div ng-if="stage == 'user-login'" class="content-center-page user-container user-create-container">
+    <div class="ginput-container">
+        <input class = "ginput" type="text" ng-model="login.UUID" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="glabel">Введите ваш UUID</label>
+    </div>
+    <a class="user-btn" ng-class="{'disabled':(login.UUID.length !== 36)}" href="#" ng-click="login()">Войти</a>
 </div>
