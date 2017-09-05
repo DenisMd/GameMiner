@@ -200,6 +200,12 @@ body {
 
 .user-create-container .info {
     margin-left: 5px;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+.user-create-container .info:hover {
+    color: #2652d2;
 }
 
 .steam-user-info {
