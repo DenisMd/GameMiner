@@ -8,15 +8,23 @@
     <link rel="stylesheet" href="css/ginputs.css">
 </head>
 <body ng-controller="MainCtrl">
-
-    <div class="header-container" style="-webkit-app-region: drag">
+    <div class="header-container header" style="-webkit-app-region: drag">
+        <ul class="primary-nav">
+            <li class="left"></li>
+            <li class="right"><a><i class="fa fa-window-minimize" aria-hidden="true"></i></a></li>
+            <li class="right"><a><i class="fa fa-window-maximize" aria-hidden="true"></i></a></li>
+            <li class="right"><a><i class="fa fa-window-restore" aria-hidden="true"></i></a></li>
+            <li class="right"><a ng-click="onClose()"><i class="fa fa-times" aria-hidden="true"></i></a></li>
+        </ul>
+    </div>
+    <div class="header-container menu-container">
         <ul class="primary-nav">
             <li class="left">
                 <img src="./icons/logo.png"
                      onmouseover="this.src='./icons/logo_after.png'"
                      onmouseout="this.src='./icons/logo.png'" class="header-logo">
+                <span class="gminer-text">GMINER</span>
             </li>
-            <li class="left gminer-text">GMINER</li>
             <li class="right"><a ui-sref="/library">Игры и скины</a></li>
             <li class="right"><a ui-sref="/rooms">Комнаты</a></li>
             <li class="right"><a ui-sref="/current_user">Моя статистика</a></li>

@@ -77,6 +77,14 @@ mainApp.controller('MainCtrl', function MainController($scope) {
     if (!fs.existsSync(appConfigPath)){
         fs.mkdirSync(appConfigPath);
     }
+
+    $scope.onClose = function () {
+        app.quit();
+    }
+
+    $scope.onClose = function () {
+        app.quit();
+    }
 });
 
 mainApp.controller('StartCtrl', function StartController($scope, $state, $http, appEnv) {

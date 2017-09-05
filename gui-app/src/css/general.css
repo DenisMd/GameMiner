@@ -13,14 +13,25 @@ body {
     font-family: "PT Sans", sans-serif;
 }
 
-/*-------------------------------------------------------- Menu -----------------------*/
+/*-------------------------------------------------------- Header -----------------------*/
 .header-container {
-    background:#2d3033;
-    height:60px;
-    left:0;
     position:fixed;
     width:100%;
     top:0;
+    left:0;
+}
+
+.header {
+    height:20px;
+    background: rgb(58, 64, 71);
+}
+
+
+/*-------------------------------------------------------- Menu -----------------------*/
+.menu-container {
+    background:#2d3033;
+    height:60px;
+    top:20px;
 }
 
 .primary-nav {
@@ -49,11 +60,12 @@ body {
     -webkit-app-region: no-drag;
 }
 
-.primary-nav li:nth-child(3) {
-    margin-left: auto;
+.primary-nav li.left {
+    margin-right: auto;
 }
 
 .left {
+    display: flex;
     align-items: center;
 }
 
