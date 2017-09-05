@@ -116,7 +116,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         $http.get(`${packageInfo.externalServer}/user/new`)
             .then(function(response) {
                 $scope.newUser = response.data;
-                appEnv.currentUser($scope.newUser);e11qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+                appEnv.currentUser($scope.newUser);
             }).catch((e) => {
             $state.go('error', prepareError(e));
         })
