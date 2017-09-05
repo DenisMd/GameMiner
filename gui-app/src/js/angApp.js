@@ -1,5 +1,6 @@
 const packageInfo = require("./package");
-const {app} = require('electron').remote;
+const remote = require('electron').remote;
+const app = remote.app;
 const fs = require('fs');
 
 const mainApp = angular.module('game-miner-app', ['ui.router']);
@@ -74,15 +75,26 @@ mainApp.service('appEnv', function() {
 
 mainApp.controller('MainCtrl', function MainController($scope) {
     $scope.version = packageInfo.version;
+    $scope.isMaximize = true;
     if (!fs.existsSync(appConfigPath)){
         fs.mkdirSync(appConfigPath);
     }
 
-    $scope.onClose = function () {
-        app.quit();
-    }
+    $scope.maximizeWindow = function () {
+        $scope.isMaximize = false;
+        remote.getCurrentWindow().maximize();
+    };
 
-    $scope.onClose = function () {
+    $scope.minimizeWindow = function () {
+        remote.getCurrentWindow().minimize();
+    };
+
+    $scope.restoreWindow = function () {
+        $scope.isMaximize = true;
+        remote.getCurrentWindow().unmaximize();
+    };
+
+    $scope.closeWindow = function () {
         app.quit();
     }
 });
