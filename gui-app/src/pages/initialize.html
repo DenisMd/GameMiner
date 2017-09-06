@@ -32,9 +32,9 @@
     <a class="user-btn" href="#" ng-click="goToGpuScan()">Продолжить</a>
 </div>
 
-<div ng-if="stage == 'user-login'" class="content-center-page user-container user-create-container">
+<div ng-if="stage == 'user-login'" class="content-center-page user-container user-create-container user-login-container">
     <div class="ginput-container">
-        <input class = "ginput" type="text" ng-model="login.UUID" required>
+        <input class = "ginput ginput-login" type="text" ng-model="login.UUID" required>
         <span class="highlight"></span>
         <span class="bar"></span>
         <label class="glabel">Введите ваш UUID</label>

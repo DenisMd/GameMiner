@@ -16,6 +16,10 @@
     outline:none;
 }
 
+.ginput-login {
+    width: 382px;
+}
+
 .glabel {
     color: #d6d7d7;
     font-size:18px;

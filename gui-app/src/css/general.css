@@ -220,6 +220,10 @@ body {
     color: #2652d2;
 }
 
+.user-login-container {
+    width: 405px;
+}
+
 .steam-user-info {
     height: 110px;
     border: 2px dotted #a3a4a6;
