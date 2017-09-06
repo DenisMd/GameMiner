@@ -1,5 +1,7 @@
 const packageInfo = require("./package");
 const remote = require('electron').remote;
+const path = require('path');
+const url = require('url');
 const app = remote.app;
 const fs = require('fs');
 
@@ -147,6 +149,19 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
             $scope.getSteamPlayerInfo();
         }
     });
+
+    $scope.showAdvice = function () {
+      let steamWin = new remote.BrowserWindow({width: 800, height: 450});
+        steamWin.on('closed', () => {
+            steamWin = null
+        });
+
+        steamWin.loadURL(url.format({
+            pathname: path.join(__dirname, 'howToKnowSteamId.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+    };
     
     $scope.getSteamPlayerInfo = function () {
         $scope.steamPlayerInfo = null;
