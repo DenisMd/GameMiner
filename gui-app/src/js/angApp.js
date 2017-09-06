@@ -144,9 +144,12 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         })
     };
 
+    let timeout;
     $scope.$watch("newUser.steamAccount", function(newVal, oldVal) {
         if (newVal !== oldVal) {
-            $scope.getSteamPlayerInfo();
+            if (timeout)
+                clearTimeout(timeout);
+            timeout = setTimeout(function(){ $scope.getSteamPlayerInfo(); }, 400);
         }
     });
 
@@ -207,7 +210,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
             // Записать в файл и начать собирать информацию о системе
             $scope.newUser.enable = true;
             writeUserInfoToFile($scope.newUser);
-            $scope.stage = "gpuInfo";
+            $scope.stage = "show-private-UUID";
         }).catch((e) => {
             $state.go('error', prepareError(e));
         })
@@ -216,6 +219,10 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
     $scope.login = {};
     $scope.goToLogin = function () {
         $scope.stage = "user-login";
+    };
+
+    $scope.goToGpuScan = function () {
+        $scope.stage = "scan-gpu";
     };
 
     $scope.login = function () {
@@ -230,7 +237,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
             .then(function(response) {
                 appEnv.currentUser(response.data);
                 writeUserInfoToFile(appEnv.currentUser());
-                $scope.stage = "gpuInfo";
+                $scope.stage = "scan-gpu";
             }).catch((e) => {
             $state.go('error', prepareError(e));
         })

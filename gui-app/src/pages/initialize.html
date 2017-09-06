@@ -24,6 +24,13 @@
     <a class="user-btn" ng-class="{'disabled':!steamPlayerInfo}" href="#" ng-click="activateUser()">Активировать аккаунт</a>
 </div>
 
+<div ng-if="stage == 'show-private-UUID'" class="content-center-page user-container user-create-container">
+    Сохраните себе этот уникальный номер. Он потребуется если вы захотите зайти с другого компьютера:
+    <div class="user-uuid">
+        {{newUser.privateUUID}}
+    </div>
+    <a class="user-btn" href="#" ng-click="goToGpuScan()">Продолжить</a>
+</div>
 
 <div ng-if="stage == 'user-login'" class="content-center-page user-container user-create-container">
     <div class="ginput-container">
@@ -33,4 +40,8 @@
         <label class="glabel">Введите ваш UUID</label>
     </div>
     <a class="user-btn" ng-class="{'disabled':(login.UUID.length !== 36)}" href="#" ng-click="login()">Войти</a>
+</div>
+
+<div ng-if="stage == 'scan-gpu'" class="content-center-page user-container user-create-container">
+    Start gpu scan
 </div>

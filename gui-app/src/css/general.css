@@ -235,3 +235,7 @@ body {
     padding: 5px 0;
     flex-direction: column;
 }
+
+.user-uuid {
+    font-size: 25px;
+}
