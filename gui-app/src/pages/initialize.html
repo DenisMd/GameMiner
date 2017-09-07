@@ -44,4 +44,7 @@
 
 <div ng-if="stage == 'scan-gpu'" class="content-center-page user-container user-create-container">
     Start gpu scan
+    <div ng-repeat="gpu in gpuInfo  track by $index">
+        {{$index}}: {{gpu.Name}} : {{gpu.AdapterRAM / 1073741824}}GB : {{gpu.AdapterCompatibility}}
+    </div>
 </div>

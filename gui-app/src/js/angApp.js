@@ -1,9 +1,14 @@
 const packageInfo = require("./package");
-const remote = require('electron').remote;
+
 const path = require('path');
 const url = require('url');
-const app = remote.app;
 const fs = require('fs');
+const gpuInfo = require('gpu-info');
+
+const remote = require('electron').remote;
+const app = remote.app;
+
+
 
 const mainApp = angular.module('game-miner-app', ['ui.router']);
 
@@ -103,6 +108,26 @@ mainApp.controller('MainCtrl', function MainController($scope) {
 
 mainApp.controller('StartCtrl', function StartController($scope, $state, $http, appEnv) {
     $scope.stage = null;
+
+    const checkSystemInfo = function () {
+        try {
+            const systemInfo = fs.readFileSync(appConfigPath + "systemInfo.json");
+            // проверяем майнеры
+        } catch (e) {
+            if (e.code === 'ENOENT') {
+                $scope.stage = "scan-gpu";
+                gpuInfo().then(function(data) {
+                    console.log(data);
+                    $scope.$apply(()=>{
+                        $scope.gpuInfo = data;
+                    });
+                });
+            } else {
+                console.error(e);
+            }
+        }
+    };
+
     $http.get(`${packageInfo.externalServer}/info`)
         .then(function(response) {
             let data = response.data;
@@ -121,6 +146,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
                     const currentUserJson = fs.readFileSync(appConfigPath + "currentUser.json");
                     appEnv.currentUser(currentUserJson);
                     // Проверяем информацию о системе
+                    checkSystemInfo();
                 } catch (e) {
                     if (e.code === 'ENOENT') {
                         $scope.stage = "user";
@@ -222,7 +248,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
     };
 
     $scope.goToGpuScan = function () {
-        $scope.stage = "scan-gpu";
+        checkSystemInfo();
     };
 
     $scope.login = function () {
@@ -237,7 +263,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
             .then(function(response) {
                 appEnv.currentUser(response.data);
                 writeUserInfoToFile(appEnv.currentUser());
-                $scope.stage = "scan-gpu";
+                checkSystemInfo();
             }).catch((e) => {
             $state.go('error', prepareError(e));
         })
