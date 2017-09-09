@@ -42,9 +42,31 @@
     <a class="user-btn" ng-class="{'disabled':(login.UUID.length !== 36)}" href="#" ng-click="login()">Войти</a>
 </div>
 
-<div ng-if="stage == 'scan-gpu'" class="content-center-page user-container user-create-container">
-    Start gpu scan
-    <div ng-repeat="gpu in gpuInfo  track by $index">
-        {{$index}}: {{gpu.Name}} : {{gpu.AdapterRAM / 1073741824}}GB : {{gpu.AdapterCompatibility}}
+<div ng-if="stage == 'scan-gpu'" class="content-center-page user-container">
+    <div ng-if="!gpuInfoNotFound">
+        <h1 class="gpu-header">Найденные видеокарты</h1>
+        <table class="gpu-info">
+            <tr>
+                <th>#</th>
+                <th>Модель видеокарты</th>
+                <th>Память, Гбайт</th>
+                <th>Производитель</th>
+            </tr>
+            <tr ng-repeat="gpu in gpuInfo  track by $index">
+                <td>{{$index + 1}}</td>
+                <td>{{gpu.Name}}</td>
+                <td>{{gpu.AdapterRAM / 1073741824 | number:1}} Гбайт</td>
+                <td>
+                    <select class="firm" ng-model="gpu.producer" required="true">
+                        <option ng-repeat="producer in producers" value="{{producer.title}}">
+                            {{producer.title}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+        </table>
     </div>
+    <h1 class="gpu-header" ng-if="gpuInfoNotFound">
+        Видеокарты не найдены или мы их не смогли определить
+    </h1>
 </div>

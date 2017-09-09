@@ -108,6 +108,7 @@ mainApp.controller('MainCtrl', function MainController($scope) {
 
 mainApp.controller('StartCtrl', function StartController($scope, $state, $http, appEnv) {
     $scope.stage = null;
+    $scope.producers = [{title: "NVIDIA"}, {title: "AMD"}];
 
     const checkSystemInfo = function () {
         try {
@@ -119,9 +120,23 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
                 gpuInfo().then(function(data) {
                     console.log(data);
                     $scope.$apply(()=>{
-                        $scope.gpuInfo = data;
+                        if (data && data.length !== 0) {
+                            $scope.gpuInfo = data;
+                             $scope.gpuInfo.forEach((element) => {
+                                 let firm = element.AdapterCompatibility;
+                                 if (firm && firm.toUpperCase().includes("NVIDIA")) {
+                                     element.producer = "NVIDIA";
+                                 } else {
+                                     element.producer = "AMD";
+                                 }
+                            });
+
+                        } else {
+                            $scope.gpuInfoNotFound = true;
+                        }
+
                     });
-                });
+                }).catch((e)=>{console.error(e); $scope.gpuInfoNotFound = true;})
             } else {
                 console.error(e);
             }

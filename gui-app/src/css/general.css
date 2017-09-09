@@ -243,3 +243,21 @@ body {
 .user-uuid {
     font-size: 25px;
 }
+
+.gpu-header {
+    color: rgb(253, 206, 121);
+}
+
+.gpu-info {
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.gpu-info tr {
+    border-bottom: 1px solid #ffd77b;
+}
+
+.gpu-info td, .gpu-info th{
+    padding: 10px;
+}
