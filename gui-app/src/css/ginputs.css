@@ -1,16 +1,18 @@
 .ginput-container {
     position:relative;
     margin-bottom:15px;
+    flex: 1 100%;
+    display: flex;
 }
 .ginput 				{
     font-size:18px;
     padding:10px 10px 10px 5px;
     display:block;
-    width:300px;
     border:none;
     border-bottom:2px solid #c9cec7;
     background-color : #6c6e70;
     color: #eff1ef;
+    flex: 1;
 }
 .ginput:focus 		{
     outline:none;
@@ -37,7 +39,7 @@
     color: #d6d7d7;
 }
 
-.bar 	{ position:relative; display:block; width:300px; }
+.bar 	{ position:relative; display:block; }
 .bar:before, .bar:after 	{
     content:'';
     height:2px;
@@ -82,4 +84,13 @@
 @keyframes inputHighlighter {
     from { background:#5264AE; }
     to 	{ width:0; background:transparent; }
+}
+
+.gclipboard {
+    cursor: pointer;
+    color: #2d3033;
+}
+
+.gclipboard:hover {
+    color: #0b0e11;
 }

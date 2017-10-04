@@ -7,6 +7,7 @@ const gpuInfo = require('gpu-info');
 
 const remote = require('electron').remote;
 const app = remote.app;
+const clipboard = remote.clipboard;
 
 
 
@@ -239,6 +240,10 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
             }
         });
     }
+
+    $scope.saveUuidToClipboard = function () {
+        clipboard.writeText(appEnv.currentUser().privateUUID);
+    };
 
     $scope.activateUser = function () {
         if (!$scope.newUser.steamId)

@@ -179,6 +179,7 @@ body {
     border: 2px solid #2d3033;
     border-radius: 5px;
     width: 315px;
+    min-width: 260px;
 }
 
 .user-btn:hover {
@@ -201,8 +202,9 @@ body {
 .user-create-container {
     flex-direction: row;
     flex-wrap: wrap;
-    width: 340px;
+    width: 60%;
     align-content: center;
+    min-width: 270px;
 }
 
 .user-create-container .user-btn{
@@ -220,6 +222,12 @@ body {
     color: #2652d2;
 }
 
+.user-input-container{
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
 .user-login-container {
     width: 405px;
 }
@@ -231,6 +239,7 @@ body {
     flex-grow: 1;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
 }
 
 .steam-user-info-not-found {

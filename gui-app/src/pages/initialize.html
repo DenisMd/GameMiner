@@ -5,13 +5,15 @@
 </div>
 
 <div ng-if="stage == 'user-create'" class="content-center-page user-container user-create-container">
-    <div class="ginput-container">
-        <input class = "ginput" type="text" ng-model="newUser.steamAccount" required>
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label class="glabel">Введите ваш Steam-Id</label>
+    <div class="user-input-container">
+        <div class="ginput-container">
+            <input class = "ginput" type="text" ng-model="newUser.steamAccount" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="glabel">Введите ваш Steam-Id</label>
+        </div>
+        <a class="info" ng-click="showAdvice()"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
     </div>
-    <a class="info" ng-click="showAdvice()"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
     <div class="steam-user-info">
         <div ng-if="steamPlayerInfo" class="steam-user-info-not-found content-center-page">
             <div><img ng-src="{{steamPlayerInfo.avatarmedium}}"></div>
@@ -28,6 +30,7 @@
     Сохраните себе этот уникальный номер. Он потребуется если вы захотите зайти с другого компьютера:
     <div class="user-uuid">
         {{newUser.privateUUID}}
+        <i ng-click="saveUuidToClipboard()" class="fa fa-clipboard gclipboard" aria-hidden="true" title="Скопировать в буфер обмена"></i>
     </div>
     <a class="user-btn" href="#" ng-click="goToGpuScan()">Продолжить</a>
 </div>
