@@ -68,8 +68,15 @@
                 </td>
             </tr>
         </table>
+        <a class="user-btn grow" ng-click="goToMiner()">Перейти к скачиванию майнеров</a>
     </div>
     <h1 class="gpu-header" ng-if="gpuInfoNotFound">
         Видеокарты не найдены или мы их не смогли определить
+    </h1>
+</div>
+
+<div ng-if="stage == 'miner-check'" class="content-center-page user-container">
+    <h1 class="gpu-header">
+        Test
     </h1>
 </div>

@@ -109,12 +109,13 @@ mainApp.controller('MainCtrl', function MainController($scope) {
 
 mainApp.controller('StartCtrl', function StartController($scope, $state, $http, appEnv) {
     $scope.stage = null;
-    $scope.producers = [{title: "NVIDIA"}, {title: "AMD"}];
+    $scope.producers = [{title: "NVIDIA"}, {title: "INTEL"}, {title: "AMD"}];
 
     const checkSystemInfo = function () {
         try {
-            const systemInfo = fs.readFileSync(appConfigPath + "systemInfo.json");
-            // проверяем майнеры
+            const systemInfo = JSON.parse(fs.readFileSync(appConfigPath + "gpuInfo.json", 'utf8'));
+            //TODO: проверить изменение видеокарты
+            checkMinerInfo();
         } catch (e) {
             if (e.code === 'ENOENT') {
                 $scope.stage = "scan-gpu";
@@ -127,6 +128,8 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
                                  let firm = gpu.AdapterCompatibility;
                                  if (firm && firm.toUpperCase().includes("NVIDIA")) {
                                      gpu.producer = "NVIDIA";
+                                 } else if (firm && firm.toUpperCase().includes("INTEL")) {
+                                     gpu.producer = "INTEL";
                                  } else {
                                      gpu.producer = "AMD";
                                  }
@@ -144,6 +147,20 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         }
     };
 
+    const checkMinerInfo = function () {
+        try {
+            const systemInfo = JSON.parse(fs.readFileSync(appConfigPath + "minerInfo.json", 'utf8'));
+            // переходим в библиотеку
+        } catch (e) {
+            if (e.code === 'ENOENT') {
+                $scope.stage = "miner-check";
+                
+            } else {
+                console.error(e);
+            }
+        }
+    };
+    
     $http.get(`${packageInfo.externalServer}/info`)
         .then(function(response) {
             let data = response.data;
@@ -159,7 +176,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
                 //Проверяем залогин ли пользователь
                 appEnv.steamApiKey(data.steamApiKey);
                 try {
-                    const currentUserJson = fs.readFileSync(appConfigPath + "currentUser.json");
+                    const currentUserJson = JSON.parse(fs.readFileSync(appConfigPath + "currentUser.json", 'utf8'));
                     appEnv.currentUser(currentUserJson);
                     // Проверяем информацию о системе
                     checkSystemInfo();
@@ -233,8 +250,8 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         });
     };
 
-    function writeUserInfoToFile(user) {
-        fs.writeFile(appConfigPath + "currentUser.json", JSON.stringify(user), function(err) {
+    function writeToFile(fileName, json) {
+        fs.writeFile(appConfigPath + fileName, JSON.stringify(json), 'utf8', function(err) {
             if(err) {
                 console.log(err);
             }
@@ -255,7 +272,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         }).then((response) => {
             // Записать в файл и начать собирать информацию о системе
             $scope.newUser.enable = true;
-            writeUserInfoToFile($scope.newUser);
+            writeToFile("currentUser.json", $scope.newUser);
             $scope.stage = "show-private-UUID";
         }).catch((e) => {
             $state.go('error', prepareError(e));
@@ -271,6 +288,21 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         checkSystemInfo();
     };
 
+    $scope.goToMiner = function () {
+        console.log(appEnv.currentUser());
+        $http({
+            url: `${packageInfo.externalServer}/user/setgpuinfo`,
+            method: "POST",
+            data: {privateUUID: appEnv.currentUser().privateUUID,
+                    gpuInfo: $scope.gpuInfo}
+        }).then(function(response) {
+            writeToFile("gpuInfo.json", $scope.gpuInfo);
+            checkMinerInfo();
+        }).catch((e) => {
+            $state.go('error', prepareError(e));
+        });
+    };
+
     $scope.login = function () {
         console.log($scope.login.UUID.length);
         if ($scope.login.UUID.length !== 36)
@@ -282,7 +314,7 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         })
             .then(function(response) {
                 appEnv.currentUser(response.data);
-                writeUserInfoToFile(appEnv.currentUser());
+                writeToFile("currentUser.json", appEnv.currentUser());
                 checkSystemInfo();
             }).catch((e) => {
             $state.go('error', prepareError(e));

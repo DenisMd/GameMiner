@@ -9,6 +9,7 @@
   "author": "DenisMD",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.15.4",
     "express-rate-limit": "^2.9.0",
     "mongodb": "^2.2.31",

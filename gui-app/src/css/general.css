@@ -195,6 +195,12 @@ body {
     background: rgba(246, 86, 86, 0.18);
 }
 
+.user-btn.grow {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .user-splitter {
     font-size: 50px;
 }
@@ -254,7 +260,7 @@ body {
 }
 
 .gpu-header {
-    color: rgb(253, 206, 121);
+    color: #c5c4c4;
 }
 
 .gpu-info {
@@ -264,7 +270,7 @@ body {
 }
 
 .gpu-info tr {
-    border-bottom: 1px solid #ffd77b;
+    border-bottom: 1px solid #c5c4c4;
 }
 
 .gpu-info td, .gpu-info th{

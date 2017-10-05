@@ -46,7 +46,6 @@ module.exports = function (app, db) {
         newUser.ip = [req.headers['x-forwarded-for'] || req.connection.remoteAddress];
         newUser.enable = false;
         newUser.workerId = randomString(8,"#aA");
-        newUser.systemInfo = {};
 
         logger.info("Create new user: %j", newUser);
         createUser(newUser, res);
@@ -76,8 +75,8 @@ module.exports = function (app, db) {
     app.get('/user/login', function (req, res) {
         let uuid = req.query.privateUUID;
         if (!uuid) {
-            res.send({codeMessage: `В запросе отсутсвует uuid`});
             res.status(400);
+            res.send({codeMessage: `В запросе отсутсвует uuid`});
             return;
         }
 
@@ -97,15 +96,17 @@ module.exports = function (app, db) {
         });
     });
 
-    app.post('user/setgpuinfo', function(req, res){
-        let uuid = req.query.privateUUID;
-        let gpuInfo = req.query.gpuInfo;
+    app.post('/user/setgpuinfo', function(req, res){
+        let uuid = req.body.privateUUID;
+        let gpuInfo = req.body.gpuInfo;
         if (!uuid) {
+            res.status(400);
             res.send({codeMessage: `В запросе отсутсвует uuid`});
             return;
         }
 
         if (!gpuInfo) {
+            res.status(400);
             res.send({codeMessage: `В запросе отсутсвует GpuInfo`});
             return;
         }

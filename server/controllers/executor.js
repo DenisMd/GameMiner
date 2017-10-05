@@ -1,6 +1,7 @@
 const express   = require('express');
 const logger    = require('../logger/logger');
 const env       = require('../server-enviroment');
+const bodyParser = require("body-parser");
 
 const MongoClient   = require('mongodb').MongoClient;
 const RateLimit     = require('express-rate-limit');
@@ -33,6 +34,10 @@ module.exports = function () {
             app.enable('trust proxy');
             app.use(limiter);
             app.use('/user/new', userCreateLimit);
+            app.use( bodyParser.json() );       // to support JSON-encoded bodies
+            app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+                extended: true
+            }));
 
             logger.info(`Starting server on port ${env.port}`);
             systemRoute(app);
