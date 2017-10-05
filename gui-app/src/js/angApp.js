@@ -118,17 +118,17 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
         } catch (e) {
             if (e.code === 'ENOENT') {
                 $scope.stage = "scan-gpu";
-                gpuInfo().then(function(data) {
-                    console.log(data);
+                gpuInfo().then(function(gpus) {
+                    console.log(gpus);
                     $scope.$apply(()=>{
-                        if (data && data.length !== 0) {
-                            $scope.gpuInfo = data;
-                             $scope.gpuInfo.forEach((element) => {
-                                 let firm = element.AdapterCompatibility;
+                        if (gpus && gpus.length !== 0) {
+                             $scope.gpuInfo = gpus;
+                             $scope.gpuInfo.forEach((gpu) => {
+                                 let firm = gpu.AdapterCompatibility;
                                  if (firm && firm.toUpperCase().includes("NVIDIA")) {
-                                     element.producer = "NVIDIA";
+                                     gpu.producer = "NVIDIA";
                                  } else {
-                                     element.producer = "AMD";
+                                     gpu.producer = "AMD";
                                  }
                             });
 
