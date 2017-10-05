@@ -97,6 +97,32 @@ module.exports = function (app, db) {
         });
     });
 
+    app.post('user/setgpuinfo', function(req, res){
+        let uuid = req.query.privateUUID;
+        let gpuInfo = req.query.gpuInfo;
+        if (!uuid) {
+            res.send({codeMessage: `В запросе отсутсвует uuid`});
+            return;
+        }
+
+        if (!gpuInfo) {
+            res.send({codeMessage: `В запросе отсутсвует GpuInfo`});
+            return;
+        }
+
+        guser.updateOne(
+            { privateUUID: uuid},
+            { $set: { "gpuInfo": gpuInfo } }
+        ).then(function(result) {
+            // process result
+            if (result.result.n === 0) {
+                res.status(400);
+                res.send("Пользователь не найден");
+            } else
+                res.send("Информация установлена");
+        });
+    });
+
     app.get('/user/info', function (req, res) {
         let uuid = req.query.publicUUID;
         if (!uuid) {
