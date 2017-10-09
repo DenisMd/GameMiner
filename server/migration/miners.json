@@ -1,0 +1,8 @@
+[{
+  "name": "Claymores Miner",
+  "type": "eth",
+  "version": "10.0",
+  "minRam": "2147483648",
+  "link": "http://bitcointalk.org/index.php?topic=1433925.0",
+  "script": "setx GPU_FORCE_64BIT_PTR 0\nsetx GPU_MAX_HEAP_SIZE 100\nsetx GPU_USE_SYNC_OBJECTS 1\nsetx GPU_MAX_ALLOC_PERCENT 1000\nsetx GPU_SINGLE_ALLOC_PERCENT 100\nEthDcrMiner64.exe -epool eu1.ethermine.org:4444 -ewal 0xe899f98170f84f05a8ff44a982d409080692dc1c.DenisMD -epsw x -di 0"
+}]

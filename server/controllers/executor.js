@@ -5,10 +5,12 @@ const bodyParser = require("body-parser");
 
 const MongoClient   = require('mongodb').MongoClient;
 const RateLimit     = require('express-rate-limit');
+const miners        = require('../migration/miners.json');
 
 // Routes
 const systemRoute = require('./system/systemRoute');
 const userRoute = require('./users/usersRoute');
+const minerRoute = require('./miners/minerRoute');
 
 const limiter = new RateLimit({
     windowMs: 10*60*1000, // 15 minutes
@@ -46,7 +48,19 @@ module.exports = function () {
                 db.collection('guser').createIndex( { "privateUUID": 1 }, { unique: true } );
                 db.collection('guser').createIndex( { "publicUUID": 1 }, { unique: true } );
                 db.collection('guser').createIndex( { "workerId": 1 }, { unique: true } );
+
+                db.collection('gminer').count(function(err, count) {
+                    if (err)
+                        logger.error("Coung gminer from mongodb failed %j", err);
+                    if (count === 0) {
+                        miners.forEach(function (miner) {
+                            db.collection('gminer').insertOne(miner);
+                        });
+                    }
+                });
+
                 userRoute(app, db);
+                minerRoute(app, db);
             }
 
             app.listen(env.port);
