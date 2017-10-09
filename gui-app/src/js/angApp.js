@@ -114,13 +114,21 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
     const checkSystemInfo = function () {
         try {
             const systemInfo = JSON.parse(fs.readFileSync(appConfigPath + "gpuInfo.json", 'utf8'));
-            //TODO: проверить изменение видеокарты
+            gpuInfo().then(function(gpus) {
+                if (gpus.length !== systemInfo.length)
+                    $scope.stage = "scan-gpu";
+                else {
+                    gpus.forEach((gpu, index)=>{
+                        if (systemInfo[index].Caption !== gpu.caption)
+                            $scope.stage = "scan-gpu";
+                    })
+                }
+            });
             checkMinerInfo();
         } catch (e) {
             if (e.code === 'ENOENT') {
                 $scope.stage = "scan-gpu";
                 gpuInfo().then(function(gpus) {
-                    console.log(gpus);
                     $scope.$apply(()=>{
                         if (gpus && gpus.length !== 0) {
                              $scope.gpuInfo = gpus;
