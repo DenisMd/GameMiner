@@ -27,7 +27,7 @@ module.exports = function (app, db) {
 
                     let map = [];
 
-                    var i = 0;
+                    let i = 0;
                     let callback = function (err, miners) {
                         if (i < user.gpuInfo.length) {
                             map.push({
