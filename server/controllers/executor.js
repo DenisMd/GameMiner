@@ -51,7 +51,7 @@ module.exports = function () {
 
                 db.collection('gminer').count(function(err, count) {
                     if (err)
-                        logger.error("Coung gminer from mongodb failed %j", err);
+                        logger.error("Count gminer from mongodb failed %j", err);
                     if (count === 0) {
                         miners.forEach(function (miner) {
                             db.collection('gminer').insertOne(miner);

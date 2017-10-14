@@ -66,12 +66,26 @@ function prepareError(e) {
 
 mainApp.service('appEnv', function() {
     let steamApiKey = null;
+    let miningServer = null;
+    let wallets = null;
     let currentUser = null;
 
     this.steamApiKey = function(key) {
         if (!arguments.length) return steamApiKey;
 
         steamApiKey = key;
+    };
+
+    this.miningServer = function(server) {
+        if (!arguments.length) return miningServer;
+
+        miningServer = server;
+    };
+
+    this.wallets = function(wals) {
+        if (!arguments.length) return wallets;
+
+        wallets = wals;
     };
 
     this.currentUser = function(curUser) {
@@ -156,17 +170,27 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
     };
 
     const checkMinerInfo = function () {
-        try {
-            const systemInfo = JSON.parse(fs.readFileSync(appConfigPath + "minerInfo.json", 'utf8'));
-            // переходим в библиотеку
-        } catch (e) {
-            if (e.code === 'ENOENT') {
-                $scope.stage = "miner-check";
-                
-            } else {
-                console.error(e);
-            }
-        }
+        $http({
+            url: `${packageInfo.externalServer}/miners/lastversion`,
+            method: "GET",
+            params: {privateUUID: appEnv.currentUser().privateUUID}
+        }).then(function(response) {
+                try {
+                    console.log(response);
+                    const systemInfo = JSON.parse(fs.readFileSync(appConfigPath + "minerInfo.json", 'utf8'));
+                    // переходим в библиотеку
+                } catch (e) {
+                    if (e.code === 'ENOENT') {
+                        $scope.stage = "miner-check";
+
+                    } else {
+                        console.error(e);
+                    }
+                }
+            }).catch((e) => {
+                $state.go('error', prepareError(e));
+            });
+
     };
     
     $http.get(`${packageInfo.externalServer}/info`)
@@ -183,6 +207,8 @@ mainApp.controller('StartCtrl', function StartController($scope, $state, $http, 
             } else {
                 //Проверяем залогин ли пользователь
                 appEnv.steamApiKey(data.steamApiKey);
+                appEnv.miningServer(data.miningServer);
+                appEnv.wallets(data.wallets);
                 try {
                     const currentUserJson = JSON.parse(fs.readFileSync(appConfigPath + "currentUser.json", 'utf8'));
                     appEnv.currentUser(currentUserJson);

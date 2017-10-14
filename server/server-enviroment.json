@@ -8,6 +8,17 @@
     "name": "game-miner-server",
     "engineeringWorks": false,
     "engineeringWorksMess": "На сервер введутся технические работы",
-    "steamApiKey": "573FDBC79BCBD34372792361E0BBDE36"
+    "steamApiKey": "573FDBC79BCBD34372792361E0BBDE36",
+    "miningServer": "eu1-zcash.flypool.org",
+    "wallets": [
+      {
+        "type":"eth",
+        "value": "0xe899f98170f84f05a8ff44a982d409080692dc1c"
+      },
+      {
+        "type":"zcash",
+        "value":"t1LUVJHEu4ioQUzM1J1hrMfEFZisSFw87Ci"
+      }
+    ]
   }
 }

@@ -52,13 +52,11 @@
             <tr>
                 <th>#</th>
                 <th>Модель видеокарты</th>
-                <th>Память, Гбайт</th>
                 <th>Производитель</th>
             </tr>
             <tr ng-repeat="gpu in gpuInfo  track by $index">
                 <td>{{$index + 1}}</td>
                 <td>{{gpu.Name}}</td>
-                <td>{{gpu.AdapterRAM / 1073741824 | number:1}} Гбайт</td>
                 <td>
                     <select class="firm" ng-model="gpu.producer" required="true">
                         <option ng-repeat="producer in producers" value="{{producer.title}}">

@@ -8,8 +8,8 @@ module.exports = function (app, db) {
     app.get('/miners/lastversion', function (req, res) {
         let uuid = req.query.privateUUID;
         if (!uuid) {
-            res.send({codeMessage: `В запросе отсутсвует uuid`});
             res.status(400);
+            res.send({codeMessage: `В запросе отсутсвует uuid`});
             return;
         }
 
@@ -27,14 +27,27 @@ module.exports = function (app, db) {
 
                     let map = [];
 
-                    user.gpuInfo.forEach((gpu)=>{
-                        map.push({
-                                gpu: gpu,
-                                miners: gminer.find({"producer": gpu.producer, "minimum-ram": {$lt: gpu.AdapterRAM}}).toArray()
-                        });
-                    }); // Находим совместимые GPU
+                    var i = 0;
+                    let callback = function (err, miners) {
+                        if (i < user.gpuInfo.length) {
+                            map.push({
+                                gpu: user.gpuInfo[i],
+                                miners: miners
+                            });
+                            if (++i < user.gpuInfo.length)
+                                gminer.find({"producers":  { $in : [user.gpuInfo[i].producer]  }}).toArray(callback);
+                            else
+                                gminer.find({"producers":  null}).toArray(callback);
+                        } else {
+                            map.push({
+                                gpu: null,
+                                miners: miners
+                            });
+                            res.send(map);
+                        }
+                    };
 
-                    res.send(map);
+                    gminer.find({"producers":  { $in : [user.gpuInfo[0].producer]  }}).toArray(callback);
                 } else {
                     res.status(400);
                     res.send({codeMessage: `Пользователь с таким uuid:"${uuid}" не найден`});
